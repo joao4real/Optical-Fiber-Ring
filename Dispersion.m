@@ -19,4 +19,5 @@ D = (s0/4)*(wlmax - (wl0^4/wlmax^3));
 
 %Total Dispersion
 dispersion = D*L;
+
 end
