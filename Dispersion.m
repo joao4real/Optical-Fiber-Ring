@@ -6,7 +6,7 @@ L = sum(s(2:end));
 
 % To analyse the worst case scenario, highest wavelength must be
 % choosen to have max dispersion
-wlmax = 299792458/(grid(end)*10^3);
+wlmax = physconst('LightSpeed')/(grid(end)*10^3);
 
 %Zero dispersion wavelength in nm
 wl0 = 1317;

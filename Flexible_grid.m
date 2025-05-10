@@ -7,8 +7,8 @@ ch_sp=ch_sp*1e-3;
 interval= interval*1e3;
 
 % Minimum and Maximum frequency in THz
-minf = round(299792458 / interval(2),3);
-maxf = round(299792458 / interval(1),3);
+minf = round(physconst('LightSpeed') / interval(2),3);
+maxf = round(physconst('LightSpeed') / interval(1),3);
 
 %Frequency slot
 fs = 0.00625;
