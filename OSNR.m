@@ -1,4 +1,4 @@
-function OSNR = CalculateOSNR(attpaths, vch, grid,txrx)
+function OSNR = OSNR(attpaths, vch, grid,txrx)
 
     gpos = 10^(1.65);              
     fn = 10^0.6;            

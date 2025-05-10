@@ -1,4 +1,4 @@
-function vch = GetTransceivers(txrx)
+function vch = Transceivers(txrx)
 
     % Ensure display format is full
     format long g

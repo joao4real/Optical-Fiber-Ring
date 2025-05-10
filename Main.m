@@ -37,13 +37,13 @@ wss100  = [1528.5785,1566.9278];
 twinwss = [1527.6049,1568.3623];
 
 % Get bandwidth interval
-range = Bandwidth_range(edfa15,wss100,twinwss);
+range = BandwithRange(edfa15,wss100,twinwss);
 
 % Define channel-spacing
 ch_sp = 62.5;
 
 % Get flexible grid
-grid = Flexible_grid(ch_sp,range);
+grid = FlexibleGrid(ch_sp,range);
 
 % Dispersion of longest path
 D = Dispersion(grid,paths);
