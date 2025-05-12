@@ -3,6 +3,9 @@ clear;
 clc;
 clear functions;
 
+%Insertion/Extraction Factor
+Z = 0.3;
+
 % Define mapping: 'HD' = 1, 'SD' = 0 in position 8
 A = [100, 150, 200, 4, 8, 16, 1, 1, 8.0, 7, 15000, -1, -29];
 B = [100, 150, 200, 4, 8, 16, 0, 1, 9.2, 11, 10000, 2, -30];
@@ -40,13 +43,38 @@ twinwss = [1527.6049,1568.3623];
 range = BandwithRange(edfa15,wss100,twinwss);
 
 % Define channel-spacing
-ch_sp = 62.5;
+ch_sp = [50 62.5];
 
-% Get flexible grid
-grid = FlexibleGrid(ch_sp,range);
+% Get flexible grid and extracted wavelengths
+grid1 = FlexibleGrid(ch_sp(1),range);
+Dlamda1 = ceil(Z*length(grid1));
+
+grid2 = FlexibleGrid(ch_sp(end),range);
+Dlamda2 = ceil(Z*length(grid2));
 
 % Dispersion of longest path
-D = Dispersion(grid,paths);
+dispersion1 = Dispersion(grid1,paths);
+dispersion2 = Dispersion(grid2,paths);
+
+% Calculate ASE Noise
+[pase_pre1,pase_pos1,pase1] = ASE(attpaths, vch, grid1);
+[pase_pre2,pase_pos2,pase2] = ASE(attpaths, vch, grid2);
+
+pase = zeros(8,6);
+
+for i=1:size(pase,1)
+    if(vch(i,1) < ch_sp(1))
+        pase(i,:) = pase_pre2(i,:);
+    else
+        pase(i,:) = pase_pre1(i,:);
+    end
+end
 
 % Calculate OSNR of longest path
-OSNR = OSNR(attpaths,vch,grid,txrx);
+OSNR = OSNR(txrx,pase);
+
+% Calculate ROSNR
+ROSNR = ROSNR(txrx);
+
+% Calculate Margin
+Margin = Margin(OSNR,ROSNR);

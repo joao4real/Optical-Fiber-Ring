@@ -10,9 +10,6 @@ mca = 0.25; % Max conector attenuation
 sl = 3e3;
 
 paths = paths*1e3;
-pathAtts = zeros(1, 6);
+pathAtts = paths/ 1e3 * (mfa + mfd) + (ceil(paths/sl) - 1) * mas + 2 * mca;
 
-for i = 1:length(paths)
-    pathAtts(i) = paths(i)/ 1e3 * (mfa + mfd) + (ceil(paths(i)/sl) - 1) * mas + 2 * mca;
-end
 end
