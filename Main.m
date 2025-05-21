@@ -4,8 +4,7 @@ clc;
 clear functions;
 
 %Insertion/Extraction Factor
-%Z = 0.3;
-Z = 0.25;
+Z = 0.3;
 
 % Define mapping: 'HD' = 1, 'SD' = 0 in position 8
 A = [100, 150, 200, 4, 8, 16, 1, 1, 8.0, 7, 15000, -1, -29];
@@ -22,19 +21,12 @@ txrx = [A;B;C;D;E;F;G;H];
 % Channel minimum bandwidth
 vch = Transceivers(txrx);
 
-%L1 = 57;   %Coimbra - Arganil
-%L2 = 75;   %Arganil - Viseu
-%L3 = 61;   %Viseu - Arouca
-%L4 = 71;   %Arouca - Aveiro   
-%L5 = 84;   %Aveiro - Figueira da Foz
-%L6 = 53;   %Figueira da Foz - Coimbra
-
-L1 = 84;   %Coimbra - Arganil
-L2 = 76;   %Arganil - Viseu
-L3 = 81;   %Viseu - Arouca
-L4 = 91;   %Arouca - Aveiro   
-L5 = 65;   %Aveiro - Figueira da Foz
-L6 = 105;   %Figueira da Foz - Coimbra
+L1 = 57;   %Coimbra - Arganil
+L2 = 75;   %Arganil - Viseu
+L3 = 61;   %Viseu - Arouca
+L4 = 71;   %Arouca - Aveiro   
+L5 = 84;   %Aveiro - Figueira da Foz
+L6 = 53;   %Figueira da Foz - Coimbra
 
 % All path's length
 paths = [L1 L2 L3 L4 L5 L6];
@@ -51,14 +43,13 @@ twinwss = [1527.6049,1568.3623];
 range = BandwithRange(edfa15,wss100,twinwss);
 
 % Define channel-spacing
-%ch_sp = [50 62.5];
-ch_sp = [50 75];
+ch_sp = [50 62.5];
 
 % Get flexible grid and extracted wavelengths
-grid1 = FlexibleGrid(ch_sp(1),range);
+[grid1,mod_ch1,n_ch1] = FlexibleGrid(ch_sp(1),range);
 Dlamda1 = ceil(Z*length(grid1));
 
-grid2 = FlexibleGrid(ch_sp(end),range);
+[grid2,mod_ch2,n_ch2] = FlexibleGrid(ch_sp(end),range);
 Dlamda2 = ceil(Z*length(grid2));
 
 % Dispersion of longest path
@@ -66,24 +57,29 @@ dispersion1 = Dispersion(grid1,paths);
 dispersion2 = Dispersion(grid2,paths);
 
 % Calculate ASE Noise
-[pase_pre1,pase_pos1,pase1] = ASE(attpaths, vch, grid1);
-[pase_pre2,pase_pos2,pase2] = ASE(attpaths, vch, grid2);
+pase1 = ASE(attpaths, vch, grid1);
+pase2 = ASE(attpaths, vch, grid2);
 
-pase = zeros(8,6);
-
-for i=1:size(pase,1)
-    if(vch(i,1) < ch_sp(1))
-        pase(i,:) = pase_pre2(i,:);
-    else
-        pase(i,:) = pase_pre1(i,:);
-    end
-end
+%Get NLI
+nli1 = NLI(txrx,70,n_ch1,ch_sp(1),grid1(end),vch(:,1));
+nli2 = NLI(txrx,70,n_ch2,ch_sp(2),grid2(end),vch(:,1));
 
 % Calculate OSNR of longest path
-OSNR = OSNR(txrx,pase);
+OSNR1 = OSNR(txrx,pase1,nli1);
+OSNR2 = OSNR(txrx,pase2,nli2);
 
 % Calculate ROSNR
-ROSNR = ROSNR(txrx);
+ROSNR1 = ROSNR(txrx,n_ch1,mod_ch1);
+ROSNR2 = ROSNR(txrx,n_ch2,mod_ch2);
 
 % Calculate Margin
-Margin = Margin(OSNR,ROSNR);
+Margin1 = Margin(OSNR1,ROSNR1);
+Margin2 = Margin(OSNR2,ROSNR2);
+
+%Plot graphs
+figure(1);
+Plot(grid1, Margin1);
+
+figure(2);
+Plot(grid2, Margin2);
+

@@ -1,4 +1,8 @@
-function grid = FlexibleGrid(ch_sp, interval)
+function [grid,mod_ch, n_ch] = FlexibleGrid(ch_sp, interval)
+
+A_QAM = 0.45;
+B_QAM = 0.3;
+C_QAM = 0.25;
 
 % Change given Channel Spacing from GHz to THz
 ch_sp=ch_sp*1e-3;
@@ -17,5 +21,10 @@ last_ch = 193.1 + floor((maxf - 193.1 - (ch_sp/2))/fs)*fs;
 first_ch = last_ch - floor((minf - last_ch + ch_sp/2)/-ch_sp)*ch_sp;
 
 grid = first_ch:ch_sp:last_ch;
+n_ch = length(grid);
 
+n_chA = ceil(n_ch* A_QAM);
+n_chB = ceil(n_ch* B_QAM);
+n_chC = n_ch - n_chA - n_chB;
+mod_ch = [n_chA n_chB n_chC];
 end

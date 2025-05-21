@@ -4,6 +4,7 @@ function Margin = Margin(OSNR,ROSNR)
 TP = 1;
 
 % Margin in dB (For now only considering ASE noise)
-Margin = OSNR - ROSNR - TP;
+
+Margin = OSNR - ROSNR - TP; 
 
 end

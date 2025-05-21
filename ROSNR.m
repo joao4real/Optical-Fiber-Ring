@@ -1,4 +1,4 @@
-function ROSNR = ROSNR(txrx)
+function ROSNR = ROSNR(txrx,n_ch,mod_ch)
 
 %Net Coding Gain
 Gcn = txrx(:,9);
@@ -36,5 +36,12 @@ for i = 1:length(Pbl)
         end
     end
 end
-    ROSNR= 10*log10(rosnr);
+
+ ROSNR = zeros(height(txrx),n_ch);
+ k=1;
+ for j = 1:width(mod_ch)
+    pat = k:k + mod_ch(j) - 1;
+    ROSNR(:, pat) = repmat(10*log10(rosnr(:, j)), 1, width(pat));
+    k = k + mod_ch(j);
+ end
 end
