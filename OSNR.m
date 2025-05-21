@@ -8,5 +8,5 @@ function OSNR = OSNR(txrx,pase)
     [~, x] = max(osnr(1,:));       
     osnr(:,x) = [];              % Remove shortest-path osnr
     
-    OSNR = 10*log10(sum(1 ./ osnr, 2).^-1);
+    OSNR = 10*log10(sum(1 ./ osnr,2).^-1);
 end

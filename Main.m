@@ -4,7 +4,8 @@ clc;
 clear functions;
 
 %Insertion/Extraction Factor
-Z = 0.3;
+%Z = 0.3;
+Z = 0.25;
 
 % Define mapping: 'HD' = 1, 'SD' = 0 in position 8
 A = [100, 150, 200, 4, 8, 16, 1, 1, 8.0, 7, 15000, -1, -29];
@@ -21,12 +22,19 @@ txrx = [A;B;C;D;E;F;G;H];
 % Channel minimum bandwidth
 vch = Transceivers(txrx);
 
-L1 = 57;   %Coimbra - Arganil
-L2 = 75;   %Arganil - Viseu
-L3 = 61;   %Viseu - Arouca
-L4 = 71;   %Arouca - Aveiro   
-L5 = 84;   %Aveiro - Figueira da Foz
-L6 = 53;   %Figueira da Foz - Coimbra
+%L1 = 57;   %Coimbra - Arganil
+%L2 = 75;   %Arganil - Viseu
+%L3 = 61;   %Viseu - Arouca
+%L4 = 71;   %Arouca - Aveiro   
+%L5 = 84;   %Aveiro - Figueira da Foz
+%L6 = 53;   %Figueira da Foz - Coimbra
+
+L1 = 84;   %Coimbra - Arganil
+L2 = 76;   %Arganil - Viseu
+L3 = 81;   %Viseu - Arouca
+L4 = 91;   %Arouca - Aveiro   
+L5 = 65;   %Aveiro - Figueira da Foz
+L6 = 105;   %Figueira da Foz - Coimbra
 
 % All path's length
 paths = [L1 L2 L3 L4 L5 L6];
@@ -43,7 +51,8 @@ twinwss = [1527.6049,1568.3623];
 range = BandwithRange(edfa15,wss100,twinwss);
 
 % Define channel-spacing
-ch_sp = [50 62.5];
+%ch_sp = [50 62.5];
+ch_sp = [50 75];
 
 % Get flexible grid and extracted wavelengths
 grid1 = FlexibleGrid(ch_sp(1),range);

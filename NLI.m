@@ -1,8 +1,8 @@
 clear all
 
 %% GN model só funciona em equivalente passa-baixo
-c_luz=2.99792458e+8;
-Perc_AQAM=0.5; Perc_BQAM=0.3; Perc_CQAM=0.2; 
+c_luz=physconst('Lightspeed');
+Perc_AQAM=0.45; Perc_BQAM=0.3; Perc_CQAM=0.25; 
 
 M_impA=4;
 M_impB=4;
