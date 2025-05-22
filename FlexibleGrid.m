@@ -17,14 +17,16 @@ maxf = round(physconst('LightSpeed') / interval(1),3);
 %Frequency slot
 fs = 0.00625;
 
-last_ch = 193.1 + floor((maxf - 193.1 - (ch_sp/2))/fs)*fs;
-first_ch = last_ch - floor((minf - last_ch + ch_sp/2)/-ch_sp)*ch_sp;
+first_ch = 193.1 + ceil((minf - 193.1 + ch_sp/2)/fs) * fs;
+last_ch = first_ch + floor((maxf - first_ch - ch_sp/2)/ch_sp) * ch_sp;
 
 grid = first_ch:ch_sp:last_ch;
+
 n_ch = length(grid);
 
 n_chA = ceil(n_ch* A_QAM);
 n_chB = ceil(n_ch* B_QAM);
 n_chC = n_ch - n_chA - n_chB;
 mod_ch = [n_chA n_chB n_chC];
+
 end

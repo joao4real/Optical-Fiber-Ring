@@ -1,7 +1,8 @@
-function optimal_Margin = Optimal(pase,eta_fi,ROSNR)
+function optimal_Margin = Optimal(pase,nli,eta_fi,ROSNR,txrx,worst_ch)
+txrx = txrx(:,7);
+pase = pase(worst_ch,:);
+nli = nli(worst_ch,:);
 
-pch_opt = nthroot(pase ./ (2*eta_fi),3);
-osnr_opt = pch_opt ./ (1.5 * pase);
-optimal_Margin = Margin(10*log10(osnr_opt),ROSNR);
+%optimal_Margin = Margin(10*log10(osnr_opt),ROSNR);
 
 end

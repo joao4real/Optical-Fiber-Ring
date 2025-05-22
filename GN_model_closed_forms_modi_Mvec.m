@@ -66,7 +66,7 @@ for nxn=1:n_spans_total
     
     %% Total NLI coefficient after n spans Eq.(16) Modulation format correction
     eta_fi_npans_total(nxn,:)=eta_SPM_total+eta_XPM_total;
-    
+    eta_fi_npans_total = 5*eta_fi_npans_total;
     eta_fi_dB_closed_form(nxn,:)=10*log10(eta_fi(nxn,:));    %%% Eq. (15)
     eta_fi_dB_closed_form_spans_total(nxn,:)=10*log10(eta_fi_npans_total(nxn,:));   %%% Eq. (16)
 end

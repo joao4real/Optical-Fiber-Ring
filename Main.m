@@ -38,9 +38,10 @@ attpaths = Attenuation(paths);
 edfa15  = [1527.9,1565.6];
 wss100  = [1528.5785,1566.9278];
 twinwss = [1527.6049,1568.3623];
+edfa_dwdm = [1528,1564];
 
 % Get bandwidth interval
-range = BandwithRange(edfa15,wss100,twinwss);
+range = BandwithRange(edfa_dwdm,wss100,twinwss);
 
 % Define channel-spacing
 ch_sp = [50 62.5];
@@ -75,20 +76,15 @@ ROSNR2 = ROSNR(txrx,n_ch2,mod_ch2);
 Margin1 = Margin(OSNR1,ROSNR1);
 Margin1 = Margin1(1:4,:);
 Margin2 = Margin(OSNR2,ROSNR2);
-Margin2 = Margin2(5:8,:);
 
-%Plot graphs
-%figure(1);
-%Plot(grid1, Margin1);
-
-%figure(2);
-%Plot(grid2, Margin2);
+[~, worst_ch1] = min(Margin1, [], 2);
+[~, worst_ch2] = min(Margin2, [], 2);
 
 %Optimal state
-optimal_Margin1 = Optimal(pase1,eta_fi1,ROSNR1);
+optimal_Margin1 = Optimal(pase1,nli1,eta_fi1,ROSNR1,txrx,worst_ch1);
 optimal_Margin1 = optimal_Margin1(1:4,:);
-optimal_Margin2 = Optimal(pase2,eta_fi2,ROSNR2);
-optimal_Margin2 = optimal_Margin2(5:8,:);
+optimal_Margin2 = Optimal(pase2,nli2,eta_fi2,ROSNR2,txrx,worst_ch2);
+
 
 %Plot graphs
 figure(1);
