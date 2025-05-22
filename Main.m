@@ -61,8 +61,8 @@ pase1 = ASE(attpaths, vch, grid1);
 pase2 = ASE(attpaths, vch, grid2);
 
 %Get NLI
-nli1 = NLI(txrx,70,n_ch1,ch_sp(1),grid1(end),vch(:,1));
-nli2 = NLI(txrx,70,n_ch2,ch_sp(2),grid2(end),vch(:,1));
+[nli1,eta_fi1] = NLI(txrx,70,n_ch1,ch_sp(1),grid1(end),vch(:,1));
+[nli2,eta_fi2] = NLI(txrx,70,n_ch2,ch_sp(2),grid2(end),vch(:,1));
 
 % Calculate OSNR of longest path
 OSNR1 = OSNR(txrx,pase1,nli1);
@@ -74,12 +74,25 @@ ROSNR2 = ROSNR(txrx,n_ch2,mod_ch2);
 
 % Calculate Margin
 Margin1 = Margin(OSNR1,ROSNR1);
+Margin1 = Margin1(1:4,:);
 Margin2 = Margin(OSNR2,ROSNR2);
+Margin2 = Margin2(5:8,:);
 
 %Plot graphs
+%figure(1);
+%Plot(grid1, Margin1);
+
+%figure(2);
+%Plot(grid2, Margin2);
+
+%Optimal state
+optimal_Margin1 = Optimal(pase1,eta_fi1,ROSNR1);
+optimal_Margin1 = optimal_Margin1(1:4,:);
+optimal_Margin2 = Optimal(pase2,eta_fi2,ROSNR2);
+optimal_Margin2 = optimal_Margin2(5:8,:);
+%Plot graphs
 figure(1);
-Plot(grid1, Margin1);
+Plot(grid1, optimal_Margin1);
 
 figure(2);
-Plot(grid2, Margin2);
-
+Plot(grid2, optimal_Margin2);

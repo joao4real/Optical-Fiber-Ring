@@ -1,4 +1,4 @@
-function p_NLI = NLI(txrx,cL_sec,cN_ch,cCh_sp,c_Lv,c_Rsl)
+function [p_NLI,eta_fi_npans_total] = NLI(txrx,cL_sec,cN_ch,cCh_sp,c_Lv,c_Rsl)
 
 %% GN model só funciona em equivalente passa-baixo
 c_luz=physconst('LightSpeed');
@@ -68,7 +68,7 @@ pks_lin=10.^(Pks_dBm/10)*1e-3;          % Potencia dos diferentes canais em line
 
 eta_fi_dB_closed_form(end,:);
 eta_fi_dB_closed_form_spans_total_no(end,:);
-p_NLI=eta_fi_npans_total(end,:)*pks_lin(1)^3;
+p_NLI=5*eta_fi_npans_total(end,:)*pks_lin(1)^3;
 %pch_opt=(pn_ASE./(2*eta_fi_npans_total(end,:))).^(1/3);
 
 %%% Figures GN-model
