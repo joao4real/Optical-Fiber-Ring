@@ -1,10 +1,10 @@
-function dispersion = Dispersion(grid,paths)
+function [dispersion,latency] = Dispersion(grid,paths,Rs)
 
 %Get longest path
 s = sort(paths);
 L = sum(s(2:end));
 
-% To analyse the worst case scenario, highest wavelength must be
+% To analyse the worst case scenario, lowest wavelength must be
 % choosen to have max dispersion
 wlmin = physconst('LightSpeed')/(grid(1)*10^3);
 
@@ -18,6 +18,30 @@ s0 = 0.088;
 D = (s0/4)*(wlmin - (wl0^4/wlmin^3));
 
 %Total Dispersion
-dispersion = D*L;
+dispersion = abs(D)*L;
+
+%Number of samples per symbol
+SpS = 2;
+
+%Truncate Rs
+Rs = Rs(:,1)*1e9;
+
+%Symbol interval
+Ts = 1./Rs;
+
+%Sampling interval
+Tsamp = Ts / SpS;
+
+% Convert dispersion from ps/nm to s/m
+disp_s_per_m = dispersion * 1e-3;
+
+% Convert wl0 from nm to meters
+wl0_m = wl0 * 1e-9;
+
+% Compute number of taps
+N_taps = 2 * floor((disp_s_per_m * wl0_m^2) ./ (2 * physconst('LightSpeed') * Tsamp.^2)) + 1;
+
+% Latency
+latency = N_taps .* Tsamp;
 
 end

@@ -19,7 +19,7 @@ H = [200, 400, 500, 4, 16, 32, 1, 0, 10.9, 22.5, 20000, 1, -31];
 txrx = [A;B;C;D;E;F;G;H];
 
 % Channel minimum bandwidth
-vch = Transceivers(txrx);
+Rs = Transceivers(txrx);
 
 L1 = 57;   %Coimbra - Arganil
 L2 = 75;   %Arganil - Viseu
@@ -53,16 +53,15 @@ Dlamda1 = ceil(Z*length(grid1));
 Dlamda2 = ceil(Z*length(grid2));
 
 % Dispersion of longest path
-dispersion1 = Dispersion(grid1,paths);
-dispersion2 = Dispersion(grid2,paths);
+[dispersion,latency] = Dispersion(grid1,paths,Rs);
 
 % Calculate ASE Noise
-pase1 = ASE(attpaths, vch, grid1);
-pase2 = ASE(attpaths, vch, grid2);
+pase1 = ASE(attpaths, Rs, grid1);
+pase2 = ASE(attpaths, Rs, grid2);
 
 %Get NLI
-[nli1,eta_fi1] = NLI(txrx,70,n_ch1,ch_sp(1),grid1(end),vch(:,1));
-[nli2,eta_fi2] = NLI(txrx,70,n_ch2,ch_sp(2),grid2(end),vch(:,1));
+[nli1,eta_fi1] = NLI(txrx,70,n_ch1,ch_sp(1),grid1(end),Rs(:,1));
+[nli2,eta_fi2] = NLI(txrx,70,n_ch2,ch_sp(2),grid2(end),Rs(:,1));
 
 % Calculate OSNR of longest path
 OSNR1 = OSNR(txrx,pase1,nli1);
@@ -90,9 +89,11 @@ optimal_Margin1 = Optimal(pase1,eta_fi1,ROSNR1);
 optimal_Margin1 = optimal_Margin1(1:4,:);
 optimal_Margin2 = Optimal(pase2,eta_fi2,ROSNR2);
 optimal_Margin2 = optimal_Margin2(5:8,:);
+
 %Plot graphs
 figure(1);
 Plot(grid1, optimal_Margin1);
 
 figure(2);
 Plot(grid2, optimal_Margin2);
+
