@@ -14,10 +14,10 @@ interval= interval*1e3;
 minf = round(physconst('LightSpeed') / interval(2),3);
 maxf = round(physconst('LightSpeed') / interval(1),3);
 
-%Frequency slot
-fs = 0.00625;
+%Central frequency unit
+cf = 0.00625;
 
-first_ch = 193.1 + ceil((minf - 193.1 + ch_sp/2)/fs) * fs;
+first_ch = 193.1 + ceil((minf - 193.1 + ch_sp/2)/cf) * cf;
 last_ch = first_ch + floor((maxf - first_ch - ch_sp/2)/ch_sp) * ch_sp;
 
 grid = first_ch:ch_sp:last_ch;

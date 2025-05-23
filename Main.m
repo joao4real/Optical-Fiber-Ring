@@ -55,6 +55,7 @@ Dlamda2 = ceil(Z*length(grid2));
 
 % Dispersion of longest path
 [dispersion,latency] = Dispersion(grid1,paths,Rs);
+dispersion2 = Dispersion(grid2,paths,Rs);
 
 % Calculate ASE Noise
 pase1 = ASE(attpaths, Rs, grid1);
@@ -85,14 +86,14 @@ optimal_Margin2 = Optimal(pase2,eta_fi2,ROSNR2,txrx,worst_ch2,n_ch2,ch_sp(2),gri
 
 
 %Plot graphs
-figure(1);
-Plot(grid1, Margin1);
-
-figure(2);
-Plot(grid2, Margin2);
-
-figure(3);
-Plot(grid1, optimal_Margin1);
-
-figure(4);
-Plot(grid2, optimal_Margin2);
+% figure(1);
+% Plot(grid1, Margin1);
+% 
+% figure(2);
+% Plot(grid2, Margin2);
+% 
+% figure(3);
+% Plot(grid1, optimal_Margin1);
+% 
+% figure(4);
+% Plot(grid2, optimal_Margin2);
