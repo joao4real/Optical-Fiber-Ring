@@ -1,4 +1,4 @@
-function [dispersion,latency] = Dispersion(grid,paths,Rs)
+function [dispersion,latency,N_taps] = Dispersion(grid,paths,Rs)
 
 %Get longest path
 s = sort(paths);

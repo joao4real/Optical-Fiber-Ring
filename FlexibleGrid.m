@@ -17,7 +17,7 @@ maxf = round(physconst('LightSpeed') / interval(1),3);
 %Central frequency unit
 cf = 0.00625;
 
-first_ch = 193.1 + ceil((minf - 193.1 + ch_sp/2)/cf) * cf;
+first_ch = 193.1 - floor((193.1 - minf - ch_sp/2)/cf) * cf;
 last_ch = first_ch + floor((maxf - first_ch - ch_sp/2)/ch_sp) * ch_sp;
 
 grid = first_ch:ch_sp:last_ch;

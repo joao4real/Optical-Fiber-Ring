@@ -13,11 +13,11 @@ eta_val = zeros(length(worst_ch),1);
  p_opt = 10.^(P_opt/10)*1e-3;
  cTxrx = [txrx(:,4:6) P_opt];
  
+ %Recalculate for optimal power
  nli = zeros(height(cTxrx),cN_ch);
   for i=1:height(cTxrx)
       nli(i,:)= GN_model_project_Mvec(cTxrx(i,1:4),70,cN_ch,cCh_sp,c_Lv,c_Rsl(i));
   end
-
  osnr = p_opt ./ (pase+nli);
  optimal_Margin = Margin(10*log10(osnr),ROSNR);
 
