@@ -6,7 +6,7 @@ L = sum(s(2:end));
 
 % To analyse the worst case scenario, highest   wavelength must be
 % choosen to have max dispersion
-wlmax = physconst('LightSpeed')/(grid(end)*10^3);
+wlmax = physconst('LightSpeed')/(grid(1)*10^3);
 
 %Zero dispersion wavelength in nm
 wl0 = 1317;
@@ -36,10 +36,10 @@ Tsamp = Ts / SpS;
 disp_s_per_m = dispersion * 1e-3;
 
 % Convert wl0 from nm to meters
-wl0_m = wl0 * 1e-9;
+wlmax_m = wlmax * 1e-9;
 
 % Compute number of taps
-N_taps = 2 * floor((disp_s_per_m * wl0_m^2) ./ (2 * physconst('LightSpeed') * Tsamp.^2)) + 1;
+N_taps = 2 * floor((disp_s_per_m * wlmax_m^2) ./ (2 * physconst('LightSpeed') * Tsamp.^2)) + 1;
 
 % Latency
 latency = N_taps .* Tsamp;
